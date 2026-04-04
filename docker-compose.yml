@@ -1,0 +1,16 @@
+services:
+  postgres:
+    image: postgres:17
+    restart: unless-stopped
+    container_name: hono-react-postgres
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: todos
+      POSTGRES_USER: docker
+      POSTGRES_PASSWORD: password
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata:
