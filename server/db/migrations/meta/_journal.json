@@ -15,6 +15,13 @@
       "when": 1775353631083,
       "tag": "0001_naive_vampiro",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1775373144978,
+      "tag": "0002_gorgeous_betty_ross",
+      "breakpoints": true
     }
   ]
 }

@@ -11,6 +11,9 @@ import {
 
 export const todos = pgTable("todos", {
   id: uuid().primaryKey().defaultRandom(),
+  userId: uuid("user_id")
+    .notNull()
+    .references(() => user.id, { onDelete: "cascade" }),
   title: varchar({ length: 100 }).notNull(),
   description: varchar({ length: 255 }),
   completed: boolean().notNull().default(false),
