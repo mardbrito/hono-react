@@ -1,43 +1,47 @@
-import { useState } from 'react'
-import { checkSession } from '../lib/check-session'
-import { authClient } from '../lib/auth-client'
-import { createFileRoute, Link, useRouter } from '@tanstack/react-router'
+import { authClient } from "@/lib/auth-client";
+import { createFileRoute, Link, useRouter } from "@tanstack/react-router";
+import { useState } from "react";
 
-export const Route = createFileRoute('/login')({
+export const Route = createFileRoute("/login")({
   component: RouteComponent,
-})
+});
 
 function RouteComponent() {
-  const router = useRouter()
+  const router = useRouter();
+  const { data: session } = authClient.useSession();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
-  checkSession()
-
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
+  if (session) {
+    router.navigate({
+      to: "/todos",
+    });
+    return null;
+  }
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
+    e.preventDefault();
 
-    if (!password || !email) {
-      alert('Please fill in all fields.')
-      return
+    if (!email || !password) {
+      alert("Please fill in all fields.");
+      return;
     }
 
     try {
-      await authClient.signIn.email({ email, password })
-      alert('Loged in successfully!')
+      await authClient.signIn.email({ email, password });
+      alert("Signed in successfully!");
       router.navigate({
-        to: '/todos',
-      })
+        to: "/todos",
+      });
     } catch (error) {
-      console.error('Signin failed:', error)
-      alert('Failed to sign in. Please try again.')
+      console.error("Signin failed:", error);
+      alert("Failed to sign in. Please try again.");
     }
-  }
+  };
 
   return (
     <div>
-      <h1>Login to your account</h1>
+      <h1>Sign in</h1>
       <p>Sign in to get started</p>
 
       <form onSubmit={handleSubmit}>
@@ -59,5 +63,5 @@ function RouteComponent() {
 
       <Link to="/signup">Don't have an account? Sign up</Link>
     </div>
-  )
+  );
 }

@@ -1,12 +1,14 @@
+import * as React from 'react'
 import { createFileRoute } from '@tanstack/react-router'
 
-export const Route = createFileRoute('/')({ component: App })
+export const Route = createFileRoute('/')({
+  component: HomeComponent,
+})
 
-function App() {
+function HomeComponent() {
   return (
-    <main className="text-center">
-      Hello World
-      <p>Hello</p>
-    </main>
+    <div className="p-2">
+      <h3>Welcome Home!</h3>
+    </div>
   )
 }
