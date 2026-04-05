@@ -8,6 +8,13 @@
       "when": 1775310334501,
       "tag": "0000_plain_james_howlett",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1775353631083,
+      "tag": "0001_naive_vampiro",
+      "breakpoints": true
     }
   ]
 }

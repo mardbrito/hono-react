@@ -1,25 +1,8 @@
 import { relations } from "drizzle-orm";
-import {
-  boolean,
-  pgTable,
-  timestamp,
-  uuid,
-  varchar,
-  index,
-  text,
-} from "drizzle-orm/pg-core";
-
-export const todos = pgTable("todos", {
-  id: uuid().primaryKey().defaultRandom(),
-  title: varchar({ length: 100 }).notNull(),
-  description: varchar({ length: 255 }),
-  completed: boolean().notNull().default(false),
-  createdAt: timestamp({ withTimezone: true }).notNull().defaultNow(),
-  updatedAt: timestamp({ withTimezone: true }).notNull().defaultNow(),
-});
+import { pgTable, text, timestamp, boolean, index } from "drizzle-orm/pg-core";
 
 export const user = pgTable("user", {
-  id: uuid().primaryKey().defaultRandom(),
+  id: text("id").primaryKey(),
   name: text("name").notNull(),
   email: text("email").notNull().unique(),
   emailVerified: boolean("email_verified").default(false).notNull(),
@@ -34,7 +17,7 @@ export const user = pgTable("user", {
 export const session = pgTable(
   "session",
   {
-    id: uuid().primaryKey().defaultRandom(),
+    id: text("id").primaryKey(),
     expiresAt: timestamp("expires_at").notNull(),
     token: text("token").notNull().unique(),
     createdAt: timestamp("created_at").defaultNow().notNull(),
@@ -43,7 +26,7 @@ export const session = pgTable(
       .notNull(),
     ipAddress: text("ip_address"),
     userAgent: text("user_agent"),
-    userId: uuid("user_id")
+    userId: text("user_id")
       .notNull()
       .references(() => user.id, { onDelete: "cascade" }),
   },
@@ -53,10 +36,10 @@ export const session = pgTable(
 export const account = pgTable(
   "account",
   {
-    id: uuid().primaryKey().defaultRandom(),
+    id: text("id").primaryKey(),
     accountId: text("account_id").notNull(),
     providerId: text("provider_id").notNull(),
-    userId: uuid("user_id")
+    userId: text("user_id")
       .notNull()
       .references(() => user.id, { onDelete: "cascade" }),
     accessToken: text("access_token"),
@@ -77,7 +60,7 @@ export const account = pgTable(
 export const verification = pgTable(
   "verification",
   {
-    id: uuid().primaryKey().defaultRandom(),
+    id: text("id").primaryKey(),
     identifier: text("identifier").notNull(),
     value: text("value").notNull(),
     expiresAt: timestamp("expires_at").notNull(),
