@@ -1,12 +1,21 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, useRouter } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { client } from "../../../server/lib/api";
+import { authClient } from "@/lib/auth-client";
 
 export const Route = createFileRoute("/todos")({
   component: RouteComponent,
 });
 
 function RouteComponent() {
+  const { data: session } = authClient.useSession();
+  const router = useRouter();
+
+  if (!session) {
+    router.navigate({ to: "/login" });
+    return null;
+  }
+
   const { data, isError, isLoading, error } = useQuery({
     queryKey: ["todos"],
     queryFn: async () => {
