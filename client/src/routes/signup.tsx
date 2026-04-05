@@ -1,6 +1,7 @@
-import { createFileRoute, useRouter } from '@tanstack/react-router'
+import { createFileRoute, Link, useRouter } from '@tanstack/react-router'
 import { authClient } from '../lib/auth-client'
 import { useState } from 'react'
+import { checkSession } from '../lib/check-session'
 
 export const Route = createFileRoute('/signup')({
   component: RouteComponent,
@@ -8,6 +9,8 @@ export const Route = createFileRoute('/signup')({
 
 function RouteComponent() {
   const router = useRouter()
+
+  checkSession()
 
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
@@ -60,6 +63,8 @@ function RouteComponent() {
 
         <button type="submit">Submit</button>
       </form>
+
+      <Link to="/login">Already have an account? Log in</Link>
     </div>
   )
 }
